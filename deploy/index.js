@@ -32,7 +32,7 @@ const path = require('path');
     process.env.BRANCH_NAME = github.context.ref;
     process.env.SHORT_SHA = github.context.sha;
 
-    await exec('bash', ['./scripts/deploy.sh', serviceToDeploy], { cwd: INFRA_PATH });
+    await exec('/bin//bash', ['./scripts/deploy.sh', serviceToDeploy], { cwd: INFRA_PATH });
   } catch (error) {
     core.setFailed(error.message);
   }
