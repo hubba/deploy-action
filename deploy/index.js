@@ -16,6 +16,8 @@ const path = require('path');
       cwd: path.resolve(process.cwd(), '../'),
     });
 
+    await exec('git checkout actions', [], { cwd: path.resolve(process.cwd(), '../infrastructure-2020') });
+
     console.log('downloading helm');
     await exec('curl', [
       '-o',
