@@ -17,13 +17,11 @@ const path = require('path');
     });
 
     console.log('run deploy script');
-    // await exec('bash ../infrastructure-2020/scripts/deploy.sh backend');
 
     process.env.BRANCH_NAME = github.context.ref;
     process.env.SHORT_SHA = github.context.sha;
 
-    await exec('echo $BRANCH_NAME');
-    await exec('echo $SHORT_SHA');
+    await exec('bash ../infrastructure-2020/scripts/deploy.sh backend');
   } catch (error) {
     core.setFailed(error.message);
   }
