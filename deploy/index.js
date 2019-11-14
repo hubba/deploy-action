@@ -21,7 +21,7 @@ const path = require('path');
     process.env.BRANCH_NAME = github.context.ref;
     process.env.SHORT_SHA = github.context.sha;
 
-    await exec('bash ../infrastructure-2020/scripts/deploy.sh backend');
+    await exec(`bash ../infrastructure-2020/scripts/deploy.sh ${serviceToDeploy}`);
   } catch (error) {
     core.setFailed(error.message);
   }
