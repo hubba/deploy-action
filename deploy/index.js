@@ -18,7 +18,7 @@ const path = require('path');
     console.log(process.cwd());
     await exec('ls ../');
     await exec('ls');
-    await exec('ls ../hubba-infrastructure');
+    await exec('cat ../infrastructure-2020/scripts/deploy.sh');
   } catch (error) {
     core.setFailed(error.message);
   }
