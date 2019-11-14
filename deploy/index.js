@@ -8,9 +8,12 @@ const path = require('path');
     const serviceToDeploy = core.getInput('service');
     const GITHUB_PAT = core.getInput('GITHUB_PAT');
 
+    console.log('configuring docker')
     await exec('gcloud auth configure-docker --quiet');
+
+    console.log('clone infra')
     await exec(`git clone https://hubba-build:${GITHUB_PAT}@github.com/hubba/infrastructure-2020.git`, [], {
-      cwd: path.resolve(process.cwd, '../'),
+      cwd: path.resolve(process.cwd(), '../'),
     });
     console.log(process.cwd());
     await exec('ls');
