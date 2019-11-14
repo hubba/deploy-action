@@ -8,17 +8,22 @@ const path = require('path');
     const serviceToDeploy = core.getInput('service');
     const GITHUB_PAT = core.getInput('GITHUB_PAT');
 
-    console.log('configuring docker')
+    console.log('configure docker');
     await exec('gcloud auth configure-docker --quiet');
 
-    console.log('clone infra')
+    console.log('clone infra');
     await exec(`git clone https://hubba-build:${GITHUB_PAT}@github.com/hubba/infrastructure-2020.git`, [], {
       cwd: path.resolve(process.cwd(), '../'),
     });
-    console.log(process.cwd());
-    await exec('ls ../');
-    await exec('ls');
-    await exec('cat ../infrastructure-2020/scripts/deploy.sh');
+
+    console.log('run deploy script');
+    // await exec('bash ../infrastructure-2020/scripts/deploy.sh backend');
+
+    process.env.BRANCH_NAME = github.context.ref;
+    process.env.SHORT_SHA = github.context.sha;
+
+    await exec('echo $BRANCH_NAME');
+    await exec('echo $SHORT_SHA');
   } catch (error) {
     core.setFailed(error.message);
   }
