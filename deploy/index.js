@@ -16,6 +16,13 @@ const path = require('path');
       cwd: path.resolve(process.cwd(), '../'),
     });
 
+    console.log('install helm');
+    await exec(`
+      curl -o get_helm.sh https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get && \
+      chmod +x get_helm.sh && \
+      ./get_helm.sh -v v3.0.0-beta.5
+    `);
+
     console.log('run deploy script');
 
     process.env.BRANCH_NAME = github.context.ref;
