@@ -16,6 +16,7 @@ const path = require('path');
       cwd: path.resolve(process.cwd(), '../'),
     });
     console.log(process.cwd());
+    await exec('ls ../');
     await exec('ls');
     await exec('cat ../hubba-infrastructure/scripts/deploy.sh');
   } catch (error) {
