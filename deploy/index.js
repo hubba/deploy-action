@@ -7,35 +7,32 @@ const path = require('path');
   try {
     const serviceToDeploy = core.getInput('service');
     const GITHUB_PAT = core.getInput('GITHUB_PAT');
+    const INFRA_PATH = path.resolve(process.cwd(), '../');
 
-    console.log('configure docker');
+    console.log('configuring docker');
     await exec('gcloud auth configure-docker --quiet');
 
-    console.log('clone infra');
+    console.log('cloning infra');
     await exec(`git clone https://hubba-build:${GITHUB_PAT}@github.com/hubba/infrastructure-2020.git`, [], {
-      cwd: path.resolve(process.cwd(), '../'),
+      cwd: INFRA_PATH,
     });
 
-    console.log('download helm');
-
+    console.log('downloading helm');
     await exec('curl', [
       '-o',
       'get_helm.sh',
       'https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get',
     ]);
 
-    console.log('chmod');
+    console.log('installing helm');
     await exec('chmod +x get_helm.sh');
-
-    console.log('install helm');
     await exec('./get_helm.sh -v v3.0.0-beta.5');
 
-    console.log('run deploy script');
-
+    console.log('running deploy script');
     process.env.BRANCH_NAME = github.context.ref;
     process.env.SHORT_SHA = github.context.sha;
 
-    await exec(`bash ../infrastructure-2020/scripts/deploy.sh ${serviceToDeploy}`);
+    await exec('bash', ['scripts/deploy.sh', serviceToDeploy], { cwd: INFRA_PATH });
   } catch (error) {
     core.setFailed(error.message);
   }
