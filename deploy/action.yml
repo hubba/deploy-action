@@ -1,0 +1,9 @@
+name: 'Deploy'
+description: 'deploy branch to gcp'
+inputs:
+  service:
+    description: 'name of the service to deploy'
+    required: true
+runs:
+  using: 'node12'
+  main: 'index.js'
