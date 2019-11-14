@@ -17,14 +17,17 @@ const path = require('path');
     });
 
     console.log('download helm');
-    await exec(`
-      curl -o get_helm.sh https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get
-    `);
 
-    console.log('chmod')
+    await exec('curl', [
+      '-o',
+      'get_helm.sh',
+      'https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get',
+    ]);
+
+    console.log('chmod');
     await exec('chmod +x get_helm.sh');
 
-    console.log('install helm')
+    console.log('install helm');
     await exec('./get_helm.sh -v v3.0.0-beta.5');
 
     console.log('run deploy script');
