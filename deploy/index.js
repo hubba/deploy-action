@@ -10,9 +10,10 @@ const path = require('path');
 
     await exec('gcloud auth configure-docker --quiet');
     await exec(`git clone https://hubba-build:${GITHUB_PAT}@github.com/hubba/infrastructure-2020.git`, [], {
-      cwd: path.resolve(process.cwd, '../')
+      cwd: path.resolve(process.cwd, '../'),
     });
-    console.log(process.cwd)
+    console.log(process.cwd());
+    await exec('ls');
     await exec('cat ../hubba-infrastructure/scripts/deploy.sh');
   } catch (error) {
     core.setFailed(error.message);
