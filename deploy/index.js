@@ -2,7 +2,8 @@ const core = require('@actions/core');
 const { exec } = require('@actions/exec');
 const { getBackendUrl, getReviewAppUrl } = require('./helpers');
 const path = require('path');
-const { createDeployment, setDeploymentStatus, getGitInfo } = require('./github');
+const env = require('./env');
+const { createDeployment, setDeploymentStatus } = require('./github');
 
 (async () => {
   try {
@@ -31,7 +32,7 @@ const { createDeployment, setDeploymentStatus, getGitInfo } = require('./github'
     await setDeploymentStatus(deployment, 'in_progress');
 
     // console.log('running deploy script');
-    // const { branch, sha, repo } = getGitInfo();
+    // const { branch, sha, repo } = env;
     // process.env.BRANCH_NAME = branch;
     // process.env.SHORT_SHA = sha;
     // await exec('bash', ['../infrastructure-2020/scripts/deploy.sh', serviceToDeploy]);

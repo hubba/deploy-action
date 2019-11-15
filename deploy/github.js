@@ -1,22 +1,12 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
+const env = require('./env');
 const { getReviewAppUrl } = require('./helpers');
 
 const octokit = new github.GitHub(core.getInput('GITHUB_PAT'));
 
-function getGitInfo() {
-  const [owner, repo] = process.env.GITHUB_REPOSITORY.split('/');
-
-  return {
-    branch: process.env.GITHUB_HEAD_REF,
-    sha: github.context.payload.after,
-    owner,
-    repo,
-  };
-}
-
 function createDeployment() {
-  const { repo, owner, sha, branch } = getGitInfo();
+  const { repo, owner, sha, branch } = env;
 
   console.log('creating github deployment');
   return octokit.repos.createDeployment({
@@ -34,7 +24,7 @@ function createDeployment() {
 }
 
 function setDeploymentStatus(deployment, status) {
-  const { repo, owner, sha, branch } = getGitInfo();
+  const { repo, owner, sha } = env;
 
   console.log(`setting deployment status to ${status}`);
   return octokit.repos.createDeploymentStatus({
@@ -51,7 +41,6 @@ function setDeploymentStatus(deployment, status) {
 }
 
 module.exports = {
-  getGitInfo,
   createDeployment,
   setDeploymentStatus,
 };

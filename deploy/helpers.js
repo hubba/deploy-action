@@ -1,7 +1,7 @@
-const { getGitInfo } = require('./github');
+const env = require('./env');
 
 function getServiceName() {
-  const { repo } = getGitInfo();
+  const { repo } = env;
 
   const services = {
     'prototype-2020': 'backend',
@@ -17,12 +17,12 @@ function getServiceName() {
 }
 
 function getReleaseName(serviceName) {
-  const { branch } = getGitInfo();
+  const { branch } = env;
   return `${serviceName}-${branch.replace(/\//g, '-')}`.substring(0, 53);
 }
 
 function getReviewAppUrl() {
-  const { branch, repo } = getGitInfo();
+  const { branch, repo } = env;
   const serviceName = getServiceName(repo);
 
   const domain = serviceName === 'brands' ? 'brands-qa.hubba.com' : 'hubba.gold';
