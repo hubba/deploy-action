@@ -16,7 +16,7 @@ function getGitInfo() {
 }
 
 function createDeployment() {
-  const { repo, owner, sha } = getGitInfo();
+  const { repo, owner, sha, branch } = getGitInfo();
 
   console.log('creating github deployment');
   return octokit.repos.createDeployment({
