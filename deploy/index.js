@@ -32,6 +32,7 @@ const helpers = require('./helpers');
     await exec('./get_helm.sh -v v3.0.0');
 
     console.log('creating github deployment');
+    console.log('env', process.env)
     console.log('context', github.context);
 
     const branchName = await octokit.git.getRef();
