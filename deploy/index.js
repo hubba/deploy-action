@@ -62,7 +62,7 @@ const helpers = require('./helpers');
     });
 
     console.log('running deploy script');
-    process.env.BRANCH_NAME = github.context.ref;
+    process.env.BRANCH_NAME = branchName;
     process.env.SHORT_SHA = github.context.sha;
     await exec('bash', ['../infrastructure-2020/scripts/deploy.sh', serviceToDeploy]);
 
