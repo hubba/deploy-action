@@ -62,10 +62,10 @@ const helpers = require('./helpers');
       },
     });
 
-    console.log('running deploy script');
-    process.env.BRANCH_NAME = branchName;
-    process.env.SHORT_SHA = github.context.sha;
-    await exec('bash', ['../infrastructure-2020/scripts/deploy.sh', serviceToDeploy]);
+    // console.log('running deploy script');
+    // process.env.BRANCH_NAME = branchName;
+    // process.env.SHORT_SHA = github.context.sha;
+    // await exec('bash', ['../infrastructure-2020/scripts/deploy.sh', serviceToDeploy]);
 
     console.log('updating deployment status');
     await octokit.repos.createDeploymentStatus({
