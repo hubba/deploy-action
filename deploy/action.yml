@@ -4,6 +4,9 @@ inputs:
   service:
     description: 'name of the service to deploy'
     required: true
+outputs:
+  url:
+    description: 'deployed app url'
 runs:
   using: 'node12'
   main: 'index.js'
