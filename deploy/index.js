@@ -13,28 +13,26 @@ const helpers = require('./helpers');
     const [owner, repo] = process.env.GITHUB_REPOSITORY.split('/');
     const sha = github.context.payload.after;
 
-    // console.log('configuring docker');
-    // await exec('gcloud auth configure-docker --quiet');
+    console.log('configuring docker');
+    await exec('gcloud auth configure-docker --quiet');
 
-    // console.log('cloning infra');
-    // await exec(`git clone https://hubba-build:${GITHUB_PAT}@github.com/hubba/infrastructure-2020.git`, [], {
-    //   cwd: path.resolve(process.cwd(), '../'),
-    // });
+    console.log('cloning infra');
+    await exec(`git clone https://hubba-build:${GITHUB_PAT}@github.com/hubba/infrastructure-2020.git`, [], {
+      cwd: path.resolve(process.cwd(), '../'),
+    });
 
-    // await exec('git checkout actions', [], { cwd: path.resolve(process.cwd(), '../infrastructure-2020') });
+    await exec('git checkout actions', [], { cwd: path.resolve(process.cwd(), '../infrastructure-2020') });
 
-    // console.log('downloading helm');
-    // await exec('curl', [
-    //   '-o',
-    //   'get_helm.sh',
-    //   'https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get',
-    // ]);
+    console.log('downloading helm');
+    await exec('curl', [
+      '-o',
+      'get_helm.sh',
+      'https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get',
+    ]);
 
-    // console.log('installing helm');
-    // await exec('chmod +x get_helm.sh');
-    // await exec('./get_helm.sh -v v3.0.0');
-
-    console.log(sha, owner, repo)
+    console.log('installing helm');
+    await exec('chmod +x get_helm.sh');
+    await exec('./get_helm.sh -v v3.0.0');
 
     console.log('creating github deployment');
     const deployment = await octokit.repos.createDeployment({
@@ -49,8 +47,6 @@ const helpers = require('./helpers');
         previews: ['ant-man'],
       },
     });
-    
-    console.log(deployment.data)
 
     console.log('creating deployment status');
     await octokit.repos.createDeploymentStatus({
@@ -64,10 +60,10 @@ const helpers = require('./helpers');
       },
     });
 
-    // console.log('running deploy script');
-    // process.env.BRANCH_NAME = branchName;
-    // process.env.SHORT_SHA = sha;
-    // await exec('bash', ['../infrastructure-2020/scripts/deploy.sh', serviceToDeploy]);
+    console.log('running deploy script');
+    process.env.BRANCH_NAME = branchName;
+    process.env.SHORT_SHA = sha;
+    await exec('bash', ['../infrastructure-2020/scripts/deploy.sh', serviceToDeploy]);
 
     console.log('updating deployment status');
     await octokit.repos.createDeploymentStatus({
