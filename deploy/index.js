@@ -9,6 +9,9 @@ const helpers = require('./helpers');
     const serviceToDeploy = core.getInput('service');
     const GITHUB_PAT = core.getInput('GITHUB_PAT');
     const octokit = new github.GitHub(GITHUB_PAT);
+    const branchName = process.env.GITHUB_HEAD_REF;
+    const [owner, repo] = process.env.GITHUB_REPOSITORY.split('/');
+    const sha = process.env.GITHUB_SHA;
 
     console.log('configuring docker');
     await exec('gcloud auth configure-docker --quiet');
@@ -32,14 +35,13 @@ const helpers = require('./helpers');
     await exec('./get_helm.sh -v v3.0.0');
 
     console.log('creating github deployment');
-    console.log('env', process.env)
+    console.log('env', process.env);
     console.log('context', github.context);
 
-    const branchName = await octokit.git.getRef();
     const deployment = await octokit.repos.createDeployment({
-      ref: github.context.sha,
-      repo: github.context.repo.repo,
-      owner: github.context.repo.owner,
+      ref: sha,
+      repo,
+      owner,
       environment: branchName === 'master' ? 'production' : branchName,
       transient_environment: branchName !== 'master',
       auto_merge: false,
@@ -50,14 +52,14 @@ const helpers = require('./helpers');
 
     console.log('creating deployment status');
     await octokit.repos.createDeploymentStatus({
-      repo: github.context.repo.repo,
-      owner: github.context.repo.owner,
-      sha: github.context.sha,
+      repo,
+      owner,
+      sha,
       deployment_id: deployment.data.id,
       state: 'in_progress',
       environment_url:
         buildMessage.status === 'SUCCESS'
-          ? helpers.getReviewAppUrl(github.context.repo.repo, branchName)
+          ? helpers.getReviewAppUrl(repo, branchName)
           : '',
       mediaType: {
         previews: ['ant-man', 'flash'],
@@ -66,14 +68,14 @@ const helpers = require('./helpers');
 
     // console.log('running deploy script');
     // process.env.BRANCH_NAME = branchName;
-    // process.env.SHORT_SHA = github.context.sha;
+    // process.env.SHORT_SHA = sha;
     // await exec('bash', ['../infrastructure-2020/scripts/deploy.sh', serviceToDeploy]);
 
     console.log('updating deployment status');
     await octokit.repos.createDeploymentStatus({
-      repo: github.context.repo.repo,
-      owner: github.context.repo.owner,
-      sha: github.context.sha,
+      repo,
+      owner,
+      sha,
       deployment_id: deployment.data.id,
       state: 'in_progress',
       environment_url:
