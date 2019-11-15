@@ -5,8 +5,10 @@ inputs:
     description: 'name of the service to deploy'
     required: true
 outputs:
-  url:
-    description: 'deployed app url'
+  frontendUrl:
+    description: 'frontend  url'
+  backendUrl:
+    description: 'backend url'
 runs:
   using: 'node12'
   main: 'index.js'

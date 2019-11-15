@@ -30,15 +30,16 @@ const { createDeployment, setDeploymentStatus, getGitInfo } = require('./github'
     const deployment = await createDeployment();
     await setDeploymentStatus(deployment, 'in_progress');
 
-    console.log('running deploy script');
-    const { branch, sha, repo } = getGitInfo();
-    process.env.BRANCH_NAME = branch;
-    process.env.SHORT_SHA = sha;
-    await exec('bash', ['../infrastructure-2020/scripts/deploy.sh', serviceToDeploy]);
+    // console.log('running deploy script');
+    // const { branch, sha, repo } = getGitInfo();
+    // process.env.BRANCH_NAME = branch;
+    // process.env.SHORT_SHA = sha;
+    // await exec('bash', ['../infrastructure-2020/scripts/deploy.sh', serviceToDeploy]);
 
     await setDeploymentStatus(deployment, 'success');
 
-    core.setOutput('url', helpers.getReviewAppUrl(repo, branch));
+    core.setOutput('frontendUrl', helpers.getReviewAppUrl());
+    core.setOutput('backendUrl', helpers.getBackendUrl(serviceToDeploy));
   } catch (error) {
     core.setFailed(error.message);
   }
