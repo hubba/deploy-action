@@ -18,22 +18,24 @@ const path = require('path');
 
     await exec('git checkout actions', [], { cwd: path.resolve(process.cwd(), '../infrastructure-2020') });
 
-    console.log('downloading helm');
-    await exec('curl', [
-      '-o',
-      'get_helm.sh',
-      'https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get',
-    ]);
+    await exec('ls ../');
+    await exec('pwd');
+    // console.log('downloading helm');
+    // await exec('curl', [
+    //   '-o',
+    //   'get_helm.sh',
+    //   'https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get',
+    // ]);
 
-    console.log('installing helm');
-    await exec('chmod +x get_helm.sh');
-    await exec('./get_helm.sh -v v3.0.0-beta.5');
+    // console.log('installing helm');
+    // await exec('chmod +x get_helm.sh');
+    // await exec('./get_helm.sh -v v3.0.0-beta.5');
 
-    console.log('running deploy script');
-    process.env.BRANCH_NAME = github.context.ref;
-    process.env.SHORT_SHA = github.context.sha;
+    // console.log('running deploy script');
+    // process.env.BRANCH_NAME = github.context.ref;
+    // process.env.SHORT_SHA = github.context.sha;
 
-    await exec('bash', ['../infrastructure-2020/scripts/deploy.sh', serviceToDeploy]);
+    // await exec('bash', ['../infrastructure-2020/scripts/deploy.sh', serviceToDeploy]);
   } catch (error) {
     core.setFailed(error.message);
   }
