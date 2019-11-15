@@ -32,6 +32,8 @@ const helpers = require('./helpers');
     await exec('./get_helm.sh -v v3.0.0');
 
     console.log('creating github deployment');
+    console.log('context', github.context);
+
     const branchName = await octokit.git.getRef();
     const deployment = await octokit.repos.createDeployment({
       ref: github.context.sha,
@@ -46,7 +48,6 @@ const helpers = require('./helpers');
     });
 
     console.log('creating deployment status');
-    console.log('context', github.context);
     await octokit.repos.createDeploymentStatus({
       repo: github.context.repo.repo,
       owner: github.context.repo.owner,
