@@ -11,7 +11,7 @@ const helpers = require('./helpers');
     const octokit = new github.GitHub(GITHUB_PAT);
     const branchName = process.env.GITHUB_HEAD_REF;
     const [owner, repo] = process.env.GITHUB_REPOSITORY.split('/');
-    const sha = process.env.GITHUB_SHA;
+    const sha = github.context.payload.after;
 
     // console.log('configuring docker');
     // await exec('gcloud auth configure-docker --quiet');
