@@ -57,10 +57,6 @@ const helpers = require('./helpers');
       sha,
       deployment_id: deployment.data.id,
       state: 'in_progress',
-      environment_url:
-        buildMessage.status === 'SUCCESS'
-          ? helpers.getReviewAppUrl(repo, branchName)
-          : '',
       mediaType: {
         previews: ['ant-man', 'flash'],
       },
@@ -77,9 +73,8 @@ const helpers = require('./helpers');
       owner,
       sha,
       deployment_id: deployment.data.id,
-      state: 'in_progress',
-      environment_url:
-        buildMessage.status === 'SUCCESS' ? getReviewAppUrl(githubInfo.repo, substitutions.BRANCH_NAME) : '',
+      state: 'success',
+      environment_url: helpers.getReviewAppUrl(repo, branchName),
       mediaType: {
         previews: ['ant-man', 'flash'],
       },
