@@ -1,6 +1,6 @@
 const core = require('@actions/core');
 const { exec } = require('@actions/exec');
-const helpers = require('./helpers');
+const { getBackendUrl, getReviewAppUrl } = require('./helpers');
 const path = require('path');
 const { createDeployment, setDeploymentStatus, getGitInfo } = require('./github');
 
@@ -38,8 +38,8 @@ const { createDeployment, setDeploymentStatus, getGitInfo } = require('./github'
 
     await setDeploymentStatus(deployment, 'success');
 
-    core.setOutput('frontendUrl', helpers.getReviewAppUrl());
-    core.setOutput('backendUrl', helpers.getBackendUrl(serviceToDeploy));
+    core.setOutput('frontendUrl', getReviewAppUrl());
+    core.setOutput('backendUrl', getBackendUrl(serviceToDeploy));
   } catch (error) {
     core.setFailed(error.message);
   }

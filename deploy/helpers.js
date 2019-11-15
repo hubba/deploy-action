@@ -35,9 +35,8 @@ function getReviewAppUrl() {
 }
 
 function getBackendUrl(service) {
-  const { branch, repo } = getGitInfo();
-  const frontendUrl = getReviewAppUrl(repo, branch);
-  const serviceName = getReleaseName(repo);
+  const frontendUrl = getReviewAppUrl();
+  const serviceName = getReleaseName(service);
 
   return frontendUrl.replace(serviceName, `${serviceName}-api`);
 }

@@ -1,6 +1,6 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
-const helpers = require('./helpers');
+const { getReviewAppUrl } = require('./helpers');
 
 const octokit = new github.GitHub(core.getInput('GITHUB_PAT'));
 
@@ -46,7 +46,7 @@ function setDeploymentStatus(deployment, status) {
     mediaType: {
       previews: ['ant-man', 'flash'],
     },
-    environment_url: helpers.getReviewAppUrl(repo, branch)
+    environment_url: getReviewAppUrl()
   });
 }
 
