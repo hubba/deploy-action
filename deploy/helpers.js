@@ -12,20 +12,20 @@ function getServiceName(repo) {
   return '';
 }
 
-function getReleaseName(serviceName, branchName) {
-  return `${serviceName}-${branchName.replace(/\//g, '-')}`.substring(0, 53);
+function getReleaseName(serviceName, branch) {
+  return `${serviceName}-${branch.replace(/\//g, '-')}`.substring(0, 53);
 }
 
-function getReviewAppUrl(repo, branchName) {
+function getReviewAppUrl(repo, branch) {
   const serviceName = getServiceName(repo);
 
   const domain = serviceName === 'brands' ? 'brands-qa.hubba.com' : 'hubba.gold';
 
-  if (branchName === 'master') {
+  if (branch === 'master') {
     return `https://${domain}`;
   }
 
-  return `https://${getReleaseName(serviceName, branchName)}.${
+  return `https://${getReleaseName(serviceName, branch)}.${
     serviceName !== 'brands' ? 'qa.' : ''
   }${domain}`;
 }

@@ -2,7 +2,6 @@ const core = require('@actions/core');
 const { exec } = require('@actions/exec');
 const github = require('@actions/github');
 const path = require('path');
-const helpers = require('./helpers');
 const { createDeployment, setDeploymentStatus, getGitInfo } = require('./github');
 
 (async () => {
@@ -10,7 +9,7 @@ const { createDeployment, setDeploymentStatus, getGitInfo } = require('./github'
     const serviceToDeploy = core.getInput('service');
     const GITHUB_PAT = core.getInput('GITHUB_PAT');
 
-    const { branchName, sha } = getGitInfo();
+    const { branch, sha } = getGitInfo();
 
     console.log('cloning infra');
     await exec(`git clone https://hubba-build:${GITHUB_PAT}@github.com/hubba/infrastructure-2020.git`, [], {
@@ -34,7 +33,7 @@ const { createDeployment, setDeploymentStatus, getGitInfo } = require('./github'
     await setDeploymentStatus(deployment, 'in_progress');
 
     console.log('running deploy script');
-    process.env.BRANCH_NAME = branchName;
+    process.env.BRANCH_NAME = branch;
     process.env.SHORT_SHA = sha;
     await exec('bash', ['../infrastructure-2020/scripts/deploy.sh', serviceToDeploy]);
 

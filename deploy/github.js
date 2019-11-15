@@ -1,4 +1,6 @@
 const core = require('@actions/core');
+const github = require('@actions/github');
+const helpers = require('./helpers');
 
 const octokit = new github.GitHub(core.getInput('GITHUB_PAT'));
 
@@ -6,7 +8,7 @@ function getGitInfo() {
   const [owner, repo] = process.env.GITHUB_REPOSITORY.split('/');
 
   return {
-    branchName: process.env.GITHUB_HEAD_REF,
+    branch: process.env.GITHUB_HEAD_REF,
     sha: github.context.payload.after,
     owner,
     repo,
@@ -21,8 +23,8 @@ function createDeployment() {
     ref: sha,
     repo,
     owner,
-    environment: branchName === 'master' ? 'production' : branchName,
-    transient_environment: branchName !== 'master',
+    environment: branch === 'master' ? 'production' : branch,
+    transient_environment: branch !== 'master',
     auto_merge: false,
     required_contexts: [],
     mediaType: {
@@ -32,7 +34,7 @@ function createDeployment() {
 }
 
 function setDeploymentStatus(deployment, status) {
-  const { repo, owner, sha } = getGitInfo();
+  const { repo, owner, sha, branch } = getGitInfo();
 
   console.log(`setting deployment status to ${status}`);
   return octokit.repos.createDeploymentStatus({
@@ -44,6 +46,7 @@ function setDeploymentStatus(deployment, status) {
     mediaType: {
       previews: ['ant-man', 'flash'],
     },
+    environment_url: helpers.getReviewAppUrl(repo, branch)
   });
 }
 
