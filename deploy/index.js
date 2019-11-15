@@ -34,6 +34,8 @@ const helpers = require('./helpers');
     // await exec('chmod +x get_helm.sh');
     // await exec('./get_helm.sh -v v3.0.0');
 
+    console.log(sha, owner, repo)
+
     console.log('creating github deployment');
     const deployment = await octokit.repos.createDeployment({
       ref: sha,
