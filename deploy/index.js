@@ -44,6 +44,7 @@ const helpers = require('./helpers');
       environment: branchName === 'master' ? 'production' : branchName,
       transient_environment: branchName !== 'master',
       auto_merge: false,
+      required_contexts: [],
       mediaType: {
         previews: ['ant-man'],
       },
