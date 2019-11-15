@@ -46,6 +46,7 @@ const helpers = require('./helpers');
     });
 
     console.log('creating deployment status');
+    console.log('context', github.context);
     await octokit.repos.createDeploymentStatus({
       repo: github.context.repo.repo,
       owner: github.context.repo.owner,
