@@ -31,11 +31,11 @@ const { createDeployment, setDeploymentStatus } = require('./github');
     const deployment = await createDeployment();
     await setDeploymentStatus(deployment, 'in_progress');
 
-    // console.log('running deploy script');
-    // const { branch, sha, repo } = env;
-    // process.env.BRANCH_NAME = branch;
-    // process.env.SHORT_SHA = sha;
-    // await exec('bash', ['../infrastructure-2020/scripts/deploy.sh', serviceToDeploy]);
+    console.log('running deploy script');
+    const { branch, sha, repo } = env;
+    process.env.BRANCH_NAME = branch;
+    process.env.SHORT_SHA = sha;
+    await exec('bash', ['../infrastructure-2020/scripts/deploy.sh', serviceToDeploy]);
 
     await setDeploymentStatus(deployment, 'success');
 
