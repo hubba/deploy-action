@@ -1,7 +1,7 @@
 const github = require('@actions/github');
 
 function getEnv() {
-  const [owner, repo] = process.env.GITHUB_REPOSITORY.split('/');
+  const [owner, repo] = process.env.GITHUB_HEAD_REF || process.env.GITHUB_REPOSITORY.split('/');
 
   return {
     branch: process.env.GITHUB_REF.replace('refs/heads/', ''),
