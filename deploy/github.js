@@ -1,6 +1,6 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
-const env = require('./env');
+const env = require('../env');
 const { getReviewAppUrl } = require('./helpers');
 
 const octokit = new github.GitHub(core.getInput('GITHUB_PAT'));

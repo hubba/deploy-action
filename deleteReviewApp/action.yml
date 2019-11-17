@@ -1,0 +1,9 @@
+name: 'Delete Review App'
+description: 'Delete deployed review app'
+inputs:
+  service:
+    description: 'name of the service to deploy'
+    required: true
+runs:
+  using: 'node12'
+  main: 'index.js'
