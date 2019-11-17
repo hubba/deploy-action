@@ -37,7 +37,7 @@ module.exports.run = {
   },
 
   async deleteReviewApp(serviceToDeploy) {
-    await exec('bash', [`${infraFolderPath}/scripts/connect-cluster.sh qa`, serviceToDeploy]);
+    await exec('bash', [`${infraFolderPath}/scripts/connect-cluster.sh`, 'qa']);
     await exec('helm', ['delete', getReleaseName(serviceToDeploy)]);
   },
 };
